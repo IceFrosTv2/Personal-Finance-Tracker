@@ -1,11 +1,11 @@
 import { ValidatorForm } from "../../../utils/validator-form";
+import { AuthService } from "../../../services/auth-service";
 
 export class Register {
     constructor (openNewRoute) {
         this.openNewRoute = openNewRoute
         const form = document.querySelector('.auth__inputs')
-
-        new ValidatorForm(form, {
+        const rules = {
             name: [
                 {
                     regex: (value) => /^[A-Z]/.test(value),
@@ -47,6 +47,9 @@ export class Register {
                     message: 'Passwords do not match'
                 }
             ],
+        }
+        new ValidatorForm(form, rules, (data) => {
+            AuthService.register(data)
         });
     }
 

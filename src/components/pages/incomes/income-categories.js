@@ -38,7 +38,7 @@ export class IncomeCategories {
     }
 
     confirmDeleteListener () {
-        this.confirmDeleteElement.addEventListener("click", async (e) => {
+        this.confirmDeleteElement.addEventListener("click", async () => {
             try {
                 await this.deleteCategory(this.categoryId);
 

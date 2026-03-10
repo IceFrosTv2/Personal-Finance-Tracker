@@ -144,7 +144,7 @@ export class Router {
 
     async activateRoute (e, oldRoute = null) {
         if ( oldRoute ) {
-            const currentRoute = this.routes.find(item => item.route === oldRoute);
+            // const currentRoute = this.routes.find(item => item.route === oldRoute);
 
         }
 
@@ -163,8 +163,7 @@ export class Router {
             this.contentPageElement.innerHTML = await fetch(newRoute.useLayout)
                 .then(response => response.text());
 
-            Common.initCategory();
-            // Common.initLinks(this.openNewRoute())
+            Common.initCategoryLayout();
         }
 
         if ( newRoute.filePathTemplate ) {

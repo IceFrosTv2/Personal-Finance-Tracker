@@ -1,5 +1,5 @@
 export class Common {
-    static initCategory() {
+    static initCategoryLayout() {
         const button = document.getElementById("category-button");
         if ( !button ) return false;
 
@@ -19,7 +19,12 @@ export class Common {
         })
     }
 
-    static initLinks(openNewRoute) {
-        this.openNewRoute = openNewRoute;
-    }
+    // static getBalance() {
+    //     const balanceAmount = document.getElementById('balance-amount');
+    //     if ( !balanceAmount ) return false;
+    // }
+
+    // static initLinks(openNewRoute) {
+    //     this.openNewRoute = openNewRoute;
+    // }
 }

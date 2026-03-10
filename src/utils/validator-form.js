@@ -1,5 +1,5 @@
 export class ValidatorForm {
-    constructor (form, customRules = {}) {
+    constructor (form, customRules = {}, onSuccess = null) {
         this.rules = customRules;
         this.validity = {}
         this.inputs = document.querySelectorAll('[data-validate]')
@@ -12,7 +12,10 @@ export class ValidatorForm {
             this.inputs.forEach(input => this.validateInput(input))
             if ( !Object.values(this.validity).every(value => value) ) {
                 e.preventDefault();
-                e.stopPropagation();
+            } else if ( onSuccess ) {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(form))
+                onSuccess(data);
             }
         })
     }

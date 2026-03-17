@@ -5,26 +5,34 @@ export class Layout {
         const button = document.getElementById("category-button");
         if ( !button ) return false;
 
-        const wrapper = button.closest('.category-toggle-wrapper');
-        const collapseElement = document.getElementById('category-collapse');
-        if ( !wrapper || !collapseElement ) return false;
+        this.categoryWrapper = button.closest('.category-toggle-wrapper');
+        this.categoryCollapse = document.getElementById('category-collapse');
+        if ( !this.categoryWrapper || !this.categoryCollapse ) return false;
 
         if ( button.dataset.inited === '1' ) return;
         button.dataset.inited = '1';
 
-        collapseElement.addEventListener('show.bs.collapse', () => {
-            wrapper.classList.add('active')
+        this.collapseInstance = new bootstrap.Collapse(this.categoryCollapse, { toggle: false });
+
+        this.categoryCollapse.addEventListener('show.bs.collapse', () => {
+            this.categoryWrapper.classList.add('active')
         });
 
-        collapseElement.addEventListener('hide.bs.collapse', () => {
-            wrapper.classList.remove('active')
+        this.categoryCollapse.addEventListener('hide.bs.collapse', () => {
+            this.categoryWrapper.classList.remove('active')
         })
 
-        if ( location.pathname.includes('/categories') ) {
-            wrapper.classList.add('active');
-            new bootstrap.Collapse(collapseElement, { toggle: false }).show();
-        }
+    }
 
+    static syncCategoryLayout () {
+        if ( !this.categoryCollapse ) return false;
+        if ( location.pathname.includes('/categories') ) {
+            this.categoryWrapper.classList.add('active');
+            this.collapseInstance.show();
+        } else {
+            this.categoryWrapper.classList.remove('active');
+            this.collapseInstance.hide();
+        }
     }
 
     static activateMenuItem (route) {
@@ -36,6 +44,24 @@ export class Layout {
                 link.classList.remove('active');
             }
         })
+    }
+
+    static initSidebarToggle () {
+        this.contentLayout = document.querySelector('.content__layout');
+        const sidebarToggle = document.querySelector('.sidebar-toggle');
+        const overlay = document.querySelector('.sidebar-overlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            this.contentLayout.classList.add('open');
+        });
+
+        overlay.addEventListener('click', () => {
+            this.closeSidebar();
+        })
+    }
+
+    static closeSidebar () {
+        this.contentLayout.classList.remove('open');
     }
 
     // static getBalance() {

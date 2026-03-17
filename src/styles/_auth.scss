@@ -5,8 +5,8 @@
     place-items: center;
     align-items: center;
     justify-content: center;
+    margin: auto;
     text-align: center;
-    margin-block: 40px;
   }
 
   .form-check {
@@ -19,11 +19,15 @@
   }
 
   &__content {
-    width: 397px;
+    width: clamp(340px, 27.57vw, 397px);
   }
 
   &__logo img {
     margin-bottom: 60px;
+
+    @media (width < 769px) {
+      margin-bottom: 20px;
+    }
   }
 
   .page-title {
@@ -43,8 +47,11 @@
   }
 
   &.not-found {
+    display: flex;
+    justify-content: center;
+
     .page-title {
-      font-size: 210px;
+      font-size: clamp(28px, 14.58vw, 210px);
     }
   }
 }

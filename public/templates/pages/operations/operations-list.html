@@ -1,12 +1,12 @@
 <section class="income-and-expenses container p-0">
-    <header class="page-title">Income and Expenses</header>
+    <h1 class="page-title">Income and Expenses</h1>
 
     <div class="actions-group">
         <a href="/operations/create" class="btn btn-success" data-action="create">
-            Create income
+            <i class="bi bi-plus-lg"></i> Income
         </a>
         <a href="/operations/create" class="btn btn-danger" data-action="create">
-            Create expense
+            <i class="bi bi-plus-lg"></i> Expense
         </a>
     </div>
 
@@ -19,66 +19,68 @@
         <button class="period__button btn btn-outline-secondary" data-period="all">Interval</button>
         <div class="period__custom">
             <span>from</span>
-            <a class="fromDate link-secondary" id="fromDate" type="button">
+            <button class="fromDate text-secondary" id="fromDate" type="button">
                 <span id="fromDateText">Date</span>
-            </a>
+            </button>
 
             <span>to</span>
-            <a class="toDate link-secondary" id="toDate" type="button">
+            <button class="toDate text-secondary" id="toDate" type="button">
                 <span id="toDateText">Date</span>
-            </a>
+            </button>
         </div>
     </div>
 
-    <table class="table table-hover">
-        <thead>
-        <tr class="table__header">
-            <th scope="col">#</th>
-            <th scope="col">Type</th>
-            <th scope="col">Category</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Date</th>
-            <th scope="col">Note</th>
-            <th scope="col" style="width: 60px"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td class="text-success">income</td>
-            <td>salary</td>
-            <td>$500</td>
-            <td>11/09/2022</td>
-            <td></td>
-            <td class="d-flex gap-2">
-                <button type="button" class="btn p-0 border-0"
-                        data-bs-target="#delete-category-modal" data-bs-toggle="modal">
-                    <i class="bi bi-trash"></i>
-                </button>
-                <a href="operations/:id/edit" class="btn p-0 border-0">
-                    <i class="bi bi-pencil"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td class="text-danger">expense</td>
-            <td>Health</td>
-            <td>$2500</td>
-            <td>12/09/2022</td>
-            <td></td>
-            <td class="d-flex gap-2">
-                <button type="button" class="btn p-0 border-0"
-                        data-bs-target="#delete-category-modal" data-bs-toggle="modal">
-                    <i class="bi bi-trash"></i>
-                </button>
-                <a href="operations/:id/edit" class="btn p-0 border-0">
-                    <i class="bi bi-pencil"></i>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="table table-hover">
+            <thead>
+            <tr class="table__header">
+                <th class="col-hidden" scope="col">#</th>
+                <th scope="col">Type</th>
+                <th scope="col">Category</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th class="col-hidden" scope="col">Note</th>
+                <th scope="col" style="width: 60px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th class="col-hidden" scope="row">1</th>
+                <td class="text-success">income</td>
+                <td>salary</td>
+                <td>$500</td>
+                <td>11/09/2022</td>
+                <td class="col-hidden"></td>
+                <td class="table__options">
+                    <button type="button" class="btn"
+                            data-bs-target="#delete-category-modal" data-bs-toggle="modal">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <a href="operations/edit" class="btn">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th class="col-hidden" scope="row">2</th>
+                <td class="text-danger">expense</td>
+                <td>Health</td>
+                <td>$2500</td>
+                <td>12/09/2022</td>
+                <td class="col-hidden"></td>
+                <td class="table__options">
+                    <button type="button" class="btn"
+                            data-bs-target="#delete-category-modal" data-bs-toggle="modal">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <a href="operations/edit" class="btn">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="modal fade" id="delete-category-modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

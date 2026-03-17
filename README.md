@@ -29,7 +29,19 @@ cd frontend
 
 # Install dependencies
 npm install
+```
 
+### Environment variables
+
+A `.env` file must be placed in the project root with the following content:
+
+```env
+VITE_HOST="http://localhost:3000"
+```
+
+`VITE_HOST` — the base URL of the backend API server.
+
+```bash
 # Start development server
 npm run dev
 
@@ -82,12 +94,12 @@ frontend/
 │   │       │   ├── operations-list.js
 │   │       │   ├── operations-create.js
 │   │       │   └── operations-edit.js
+│   │       ├── base-categories.js       # Base class for category pages
 │   │       ├── incomes/
 │   │       │   ├── income-categories.js
 │   │       │   ├── income-create.js
 │   │       │   └── income-edit.js
 │   │       └── expenses/
-│   │           ├── base-categories.js   # Base class for category pages
 │   │           ├── expense-categories.js
 │   │           ├── expense-create.js
 │   │           └── expense-edit.js
@@ -112,11 +124,12 @@ frontend/
 
 - Registration and login with client-side form validation
 - Dashboard with balance overview
-- Income and expense category management (create, edit, delete)
-- Transaction list with period filtering
+- Income and expense category management (create, edit, delete with modal confirmation)
+- Transaction list with period filtering (week / month / year / all time / custom range)
 - Create and edit transactions
 - Income/expense visualization with pie charts (Chart.js)
 - Client-side routing without page reload
+- Responsive layout: collapsible sidebar on desktop, slide-in drawer with overlay on mobile (< 650px)
 
 ---
 
@@ -124,7 +137,6 @@ frontend/
 
 - Implement pagination for the transaction list
 - Add CSV/Excel data export
-- Implement responsive layout for mobile devices
 - Add dark theme support
 
 ---

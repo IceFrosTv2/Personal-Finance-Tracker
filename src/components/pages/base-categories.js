@@ -1,12 +1,15 @@
+import * as bootstrap from 'bootstrap';
+
 export class BaseCategories {
     constructor (openNewRoute, type) {
         this.openNewRoute = openNewRoute;
         this.type = type;
         // Находим карточки товаров, чтобы повесить ОДНУ прослушку на всё
         this.categories = document.getElementById("categories");
-        this.confirmDeleteElement = document.getElementById("confirm-delete-category");
-        this.resultTextElement = document.getElementById("result-text");
-        this.resultButtonElement = document.getElementById("result-button");
+        this.modalInstance = new bootstrap.Modal(document.getElementById("category-modal")) ;
+        this.modalText = document.getElementById("modal-text");
+        this.modalConfirm = document.getElementById("modal-confirm");
+        this.modalCancel = document.getElementById("modal-cancel");
         this.categoryId = null
 
         this.init();
@@ -20,7 +23,7 @@ export class BaseCategories {
             // Если клик был по кнопке, то берём значение её атрибута
             const action = button.dataset.action;
 
-            // ННаходим карточку товара, к которой была произведена операция
+            // Находим карточку товара, к которой была произведена операция
             const card = button.closest('.category-card');
             if ( !card ) return false;
 
@@ -30,6 +33,12 @@ export class BaseCategories {
             if ( action === 'edit' ) {
                 this.openNewRoute(`/categories/${this.type}/edit?id=${this.categoryId}`);
             } else if ( action === 'delete' ) {
+                this.modalText.textContent = 'Are you sure you want to delete this category? Related income will remain uncategorized.';
+                this.modalConfirm.textContent = 'Delete';
+                this.modalConfirm.className = 'btn btn-danger';
+                this.modalCancel.style.display = 'block';
+
+                this.modalInstance.show();
                 this.confirmDeleteListener();
             }
         });
@@ -37,19 +46,20 @@ export class BaseCategories {
     }
 
     confirmDeleteListener () {
-        this.confirmDeleteElement.addEventListener("click", async () => {
+        this.modalConfirm.addEventListener("click", async () => {
                 try {
                     await this.deleteCategory(this.categoryId);
-
-                    this.resultTextElement.textContent = "Category was successfully deleted";
-                    this.resultButtonElement.classList.remove('btn-danger');
-                    this.resultButtonElement.classList.add('btn-success');
+                    this.modalText.textContent = "Category was successfully deleted";
+                    this.modalConfirm.className = 'btn btn-success';
                 } catch (e) {
-                    this.resultTextElement.textContent = "Error deleting category";
-                    console.error(e)
-                    this.resultButtonElement.classList.remove('btn-success');
-                    this.resultButtonElement.classList.add('btn-danger');
+                    this.modalText.textContent = "Error deleting category";
+                    // console.error(e)
                 }
+                this.modalCancel.style.display = 'none';
+                this.modalConfirm.textContent = 'Ok';
+                this.modalConfirm.addEventListener('click', () => {
+                    this.modalInstance.hide();
+                }, {once: true});
             },
             { once: true });
     };

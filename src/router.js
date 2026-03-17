@@ -199,9 +199,12 @@ export class Router {
                     this.contentApp.innerHTML = await fetch(newRoute.useLayout)
                         .then(response => response.text());
                     Layout.initCategoryLayout();
+                    Layout.initSidebarToggle();
                     this.contentMain = document.getElementById('content__main')
                 }
-                Layout.activateMenuItem(newRoute)
+                Layout.closeSidebar();
+                Layout.syncCategoryLayout();
+                Layout.activateMenuItem(newRoute);
             }
 
             (this.contentMain || this.contentApp).innerHTML = await fetch(newRoute.filePathTemplate)

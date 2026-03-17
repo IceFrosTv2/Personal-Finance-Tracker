@@ -1,7 +1,9 @@
-<div class="content d-flex">
-    <div class="content__layout d-flex flex-column flex-shrink-1 border-end border-secondary-subtle">
+<div class="content">
+    <button class="sidebar-toggle" type="button"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+    <div class="content__layout">
         <a href="/"
-           class="content__logo text-decoration-none border-bottom border-secondary-subtle">
+           class="content__logo">
             <img
                     class="bi pe-none"
                     src="/images/logo.svg"
@@ -11,20 +13,20 @@
                     loading="lazy"
             />
         </a>
-        <div class="content__aside min-vh-100 d-flex flex-column justify-content-between border-bottom border-secondary-subtle">
+        <div class="content__aside">
             <div class="list-group" role="tablist">
-                <a href="/" class="list-group-item rounded border-0">
+                <a href="/" class="list-group-item rounded ">
                     <i class="bi bi-house me-2"></i>Home
                 </a>
-                <a href="/operations" class="list-group-item rounded border-0">
-                    <i class="bi bi-cash-coin me-2"></i>Income&Expense Categories
+                <a href="/operations" class="list-group-item rounded ">
+                    <i class="bi bi-cash-coin me-2"></i>Operations
                 </a>
-                <div class="category-toggle-wrapper rounded overflow-hidden">
+                <div class="category-toggle-wrapper rounded">
                     <button id="category-button"
-                            class="list-group-item d-flex justify-content-between align-items-center w-100 collapsed text-start border-0 rounded-0"
+                            class="list-group-item collapse-list collapsed rounded-0"
                             data-bs-toggle="collapse" role="tab" data-bs-target="#category-collapse">
                         Category
-                        <svg style='fill:#052C65' height="13" width="13"
+                        <svg height="13" width="13"
                              viewBox="0 0 492.004 492.004">
                             <path
                                     d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,
@@ -39,13 +41,13 @@
                         <ul class="list-unstyled mb-0">
                             <li>
                                 <a href="/categories/income"
-                                   class="list-group-item border-0">
+                                   class="list-group-item ">
                                     Income
                                 </a>
                             </li>
                             <li>
                                 <a href="/categories/expense"
-                                   class="list-group-item border-0">
+                                   class="list-group-item ">
                                     Expense
                                 </a>
                             </li>
@@ -57,16 +59,10 @@
                 Balance: <span id="balance-amount" class="ms-2 text-primary fw-bold">$500</span>
             </div>
         </div>
-        <div class="ms-1 pt-3 ps-3">
-            <a role="button" style="cursor: pointer"
-               class="d-flex gap-3 align-items-center link-body-emphasis text-decoration-none">
-                <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center"
-                     style="width: 36px; height: 36px;">
-                    <i class="bi bi-person text-secondary-bg"></i>
-                </div>
-                <span id="user-name">Roman</span>
-            </a>
+        <div class="content__footer">
+            <i class="content__user bi bi-person bg-secondary-subtle text-secondary"></i>
+            <span id="user-name">Roman Chernov</span>
         </div>
     </div>
-    <div id="content__main" class="content__main flex-grow-1"></div>
+    <div id="content__main" class="content__main"></div>
 </div>

@@ -55,13 +55,36 @@
                     </div>
                 </div>
             </div>
-            <div class="balance">
-                Balance: <span id="balance-amount" class="ms-2 text-primary fw-bold">$500</span>
+            <div class="balance" data-bs-toggle="modal" data-bs-target="#updateBalance">
+                Balance: <span id="balance-amount" class="ms-2 text-primary fw-bold">Balance</span>
             </div>
         </div>
-        <div class="content__footer">
-            <i class="content__user bi bi-person bg-secondary-subtle text-secondary"></i>
-            <span id="user-name">Roman Chernov</span>
+        <div class="dropdown">
+            <button
+               class="content__footer dropdown-toggle" type="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="content__user bi bi-person bg-secondary-subtle text-secondary"></i>
+                <span id="user-name">Roman Chernoff</span>
+            </button>
+            <ul class="dropdown-menu shadow">
+                <li><a id="logout" class="dropdown-item" href="/login">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal fade" id="updateBalance" tabindex="-1" aria-labelledby="updateBalanceLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <label for="balance-input" class="modal-text">
+                    <span id="balance-label">Enter your balance</span>
+                    <input class="form-control" id="balance-input" type="number"/>
+                </label>
+                <div class="modal-buttons">
+                    <button id="button-cancel-ok" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button id="button-update" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="content__main" class="content__main"></div>

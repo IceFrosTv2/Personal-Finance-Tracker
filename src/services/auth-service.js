@@ -1,29 +1,23 @@
 import { HttpUtils } from "../utils/http-utils";
-import * as bootstrap from 'bootstrap';
+import { ToastUtils } from "../utils/toast-utils";
+import { TokensUtils } from "../utils/tokens-utils";
 
 export class AuthService {
     static async register (data) {
         const result = await HttpUtils.request('/signup', 'POST', false, data);
-        this.#showError(result);
+        if ( ToastUtils.checkAndShowError(result) ) return null;
         return result.response;
     }
 
     static async login (data) {
         const result = await HttpUtils.request('/login', 'POST', false, data)
-        this.#showError(result);
+        if ( ToastUtils.checkAndShowError(result) ) return null;
         return result.response;
     }
 
-    static #showError(result) {
-        if ( result.error || !result.response || result.response.error ) {
-            const toastElement = document.querySelector('.toast')
-            toastElement.querySelector('.toast-body').textContent = result.response.message || 'Unknown error';
-            new bootstrap.Toast(toastElement).show();
-            return false;
-        }
-    }
-
-    static async logout(data) {
-        return await HttpUtils.request('/logout', 'POST', false, data)
+    static async logout() {
+        const refreshToken = TokensUtils.getAuthInfo(TokensUtils.refreshTokenKey);
+        await HttpUtils.request('/logout', 'POST', false, {refreshToken});
+        TokensUtils.removeAuthInfo();
     }
 }

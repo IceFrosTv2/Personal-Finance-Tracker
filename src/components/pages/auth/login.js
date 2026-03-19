@@ -1,6 +1,6 @@
 import { ValidatorForm } from "../../../utils/validator-form";
 import { AuthService } from "../../../services/auth-service";
-import { AuthUtils } from "../../../utils/auth-utils";
+import { TokensUtils } from "../../../utils/tokens-utils";
 
 export class Login {
     constructor (openNewRoute) {
@@ -20,7 +20,7 @@ export class Login {
             if ( loginResult ) {
                 const { accessToken, refreshToken } = loginResult.tokens;
                 const {name, lastName, id} = loginResult.user;
-                AuthUtils.setAuthInfo(accessToken, refreshToken, {name, lastName, id}, data.rememberMe);
+                TokensUtils.setAuthInfo(accessToken, refreshToken, {name, lastName, id}, data.rememberMe);
                 this.openNewRoute('/');
             }
         });

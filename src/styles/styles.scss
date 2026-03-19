@@ -127,10 +127,11 @@ body {
     align-items: center;
 
     & button {
-      width: 75px;
+      width: 85px;
       text-align: center;
       padding: 0;
       margin-inline: 5px;
+      background-color: #fff;
       border: none;
       text-decoration: underline;
     }
@@ -140,9 +141,10 @@ body {
 //_______________________________________________________________________________
 
 
-.category-create {
+.category__create, .category__edit {
+  width: min(100%, 397px);
+
   .form-control {
-    width: 33%;
     margin-bottom: 20px;
   }
 }

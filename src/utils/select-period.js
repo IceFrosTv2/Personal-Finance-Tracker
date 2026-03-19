@@ -1,6 +1,6 @@
 export class SelectPeriod {
     constructor () {
-        let activePeriodButton = document.querySelector('.btn-secondary');
+        let activePeriodButton = document.querySelector('#period .btn-secondary');
         const periods = document.getElementById('period');
         periods.addEventListener('click', (e) => {
             const button = e.target.closest("[data-period]");

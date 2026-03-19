@@ -1,5 +1,4 @@
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@eonasdan/tempus-dominus/dist/css/tempus-dominus.css';
 import './styles/styles.scss';
 import {Router} from "./router.js";

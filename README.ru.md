@@ -104,7 +104,7 @@ frontend/
 │   │           ├── expense-create.js
 │   │           └── expense-edit.js
 │   ├── utils/
-│   │   ├── auth-utils.js               # Хранение токенов и логика обновления
+│   │   ├── tokens-utils.js               # Хранение токенов и логика обновления
 │   │   ├── http-utils.js               # HTTP-обёртка с авторизацией
 │   │   ├── validator-form.js           # Универсальный валидатор форм
 │   │   ├── date-picker.js              # Инициализация датапикера

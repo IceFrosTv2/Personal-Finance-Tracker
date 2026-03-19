@@ -104,7 +104,7 @@ frontend/
 │   │           ├── expense-create.js
 │   │           └── expense-edit.js
 │   ├── utils/
-│   │   ├── auth-utils.js               # Token storage and refresh logic
+│   │   ├── tokens-utils.js               # Token storage and refresh logic
 │   │   ├── http-utils.js               # HTTP request wrapper with auth
 │   │   ├── validator-form.js           # Universal form validator
 │   │   ├── date-picker.js              # Date picker initialization

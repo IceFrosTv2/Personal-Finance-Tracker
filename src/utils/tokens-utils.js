@@ -1,6 +1,6 @@
 import config from "../config/config";
 
-export class AuthUtils {
+export class TokensUtils {
     static accessTokenKey = 'accessToken';
     static refreshTokenKey = 'refreshToken';
     static userInfoTokenKey = 'userInfo';
@@ -17,18 +17,19 @@ export class AuthUtils {
         }
     }
 
-    static getStorage () {
+    static localOrStorage () {
         return localStorage.getItem(this.rememberMeKey) === 'true' ? localStorage : sessionStorage;
     }
 
     static getAuthInfo (key = null) {
         if ( key && [this.accessTokenKey, this.refreshTokenKey, this.userInfoTokenKey].includes(key) ) {
-            return this.getStorage().getItem(key);
+            return this.localOrStorage().getItem(key);
         } else {
+            const storage = this.localOrStorage();
             return {
-                [this.accessTokenKey]: this.getStorage().getItem(this.accessTokenKey),
-                [this.refreshTokenKey]: this.getStorage().getItem(this.refreshTokenKey),
-                [this.userInfoTokenKey]: JSON.parse(this.getStorage().getItem(this.userInfoTokenKey)),
+                [this.accessTokenKey]: storage.getItem(this.accessTokenKey),
+                [this.refreshTokenKey]: storage.getItem(this.refreshTokenKey),
+                [this.userInfoTokenKey]: JSON.parse(storage.getItem(this.userInfoTokenKey)),
             }
         }
     }
@@ -50,23 +51,27 @@ export class AuthUtils {
                 body: JSON.stringify({ refreshToken })
             });
             if ( response.status === 200 ) {
-                const tokens = await response.json();
+                const { tokens } = await response.json();
                 if ( tokens?.accessToken && tokens?.refreshToken ) {
-                    this.setAuthInfo(tokens.accessToken, tokens.refreshToken);
+                    const remember =localStorage.getItem(this.rememberMeKey) === 'true';
+                    this.setAuthInfo(tokens.accessToken, tokens.refreshToken, null, remember);
                     return true;
                 }
             } else if ( response.status === 400 || response.status === 401 ) {
                 this.removeAuthInfo();
+                return false;
             }
         } catch (e) {
             console.error('Failed to refresh token:', e)
             return false;
         }
+        return false;
     }
 
     static removeAuthInfo () {
-        this.getStorage().removeItem(this.accessTokenKey);
-        this.getStorage().removeItem(this.refreshTokenKey);
-        this.getStorage().removeItem(this.userInfoTokenKey);
+        this.localOrStorage().removeItem(this.accessTokenKey);
+        this.localOrStorage().removeItem(this.refreshTokenKey);
+        this.localOrStorage().removeItem(this.userInfoTokenKey);
+        localStorage.removeItem(this.rememberMeKey);
     }
 }

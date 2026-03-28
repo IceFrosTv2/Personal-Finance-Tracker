@@ -2,11 +2,12 @@ import { SelectPeriod } from "../../utils/select-period";
 import { DatePicker } from "../../utils/date-picker";
 
 export class BaseFiltersPage {
-    initPeriodFilter(onLoad) {
-        this.dateFrom = null;
-        this.dateTo = null;
-        this.period = 'today';
+    protected dateFrom: Date | null = null;
+    protected dateTo: Date | null = null;
+    protected intervalButton: HTMLButtonElement | null = null;
+    protected period = 'today';
 
+    public initPeriodFilter(onLoad: () => Promise<void>) {
 
         const selectPeriod = new SelectPeriod(async (dateFrom, dateTo, period) => {
             this.dateFrom = dateFrom;
@@ -15,7 +16,7 @@ export class BaseFiltersPage {
             await onLoad();
         });
 
-        this.intervalButton = document.querySelector('[data-period="interval"]');
+        this.intervalButton = document.querySelector('[data-period="interval"]') as HTMLButtonElement | null;
 
         DatePicker.getDate('fromDate', async (date) => {
             selectPeriod.setActivateButton(this.intervalButton);

@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 
 export class ModalUtils {
-    static confirm (type, onConfirm) {
+    public static confirm (type: string, onConfirm: () => Promise<void>) {
         let modal = document.getElementById('confirm-modal');
         if ( !modal ) {
             document.body.insertAdjacentHTML('beforeend', `
@@ -19,13 +19,15 @@ export class ModalUtils {
                     </div>
                 </div>
             `)
-            modal = document.getElementById('confirm-modal');
+            modal = document.body.lastElementChild as HTMLElement;
         }
 
-        const instance = new bootstrap.Modal(modal)
+        const instance = bootstrap.Modal.getInstance(modal) ?? new bootstrap.Modal(modal)
         instance.show();
 
-        document.getElementById('confirm-modal__confirm').addEventListener('click',
+        const confirmModal = document.getElementById('confirm-modal__confirm');
+        if ( !confirmModal ) return;
+            confirmModal.addEventListener('click',
             async () => {
                 await onConfirm();
                 instance.hide();

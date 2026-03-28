@@ -1,11 +1,16 @@
 import { ValidatorForm } from "../../../utils/validator-form";
 import { AuthService } from "../../../services/auth-service";
+import type {OpenNewRouteType} from "../../../types/open-new-route.type";
+import type {ValidationRulesType} from "../../../types/validation-rules.type";
+import type {FormDataType} from "../../../types/form-data.type";
+import type {RegisterResponseType} from "../../../types/auth-response.type";
 
 export class Register {
-    constructor (openNewRoute) {
-        this.openNewRoute = openNewRoute
-        const form = document.querySelector('.auth__inputs')
-        const rules = {
+    constructor (private openNewRoute: OpenNewRouteType) {
+        const form: HTMLFormElement | null = document.querySelector('.auth__inputs');
+        if (!form) return;
+
+        const rules: ValidationRulesType = {
             name: [
                 {
                     regex: (value) => /^[A-Z]/.test(value),
@@ -41,16 +46,17 @@ export class Register {
             passwordRepeat: [
                 {
                     regex: (value) => {
-                        const passwordInput = document.querySelector('[data-validate="password"]')
+                        const passwordInput: HTMLInputElement | null = document.querySelector('[data-validate="password"]');
+                        if (!passwordInput) return false;
                         return value === passwordInput.value
                     },
                     message: 'Passwords do not match'
                 }
             ],
         }
-        new ValidatorForm(form, rules, async (data) => {
-            const registerResult = await AuthService.register(data);
-            if ( registerResult ) this.openNewRoute('/login');
+        new ValidatorForm(form, rules, async (data: FormDataType): Promise<void> => {
+            const registerResult: RegisterResponseType | null = await AuthService.register(data);
+            if ( registerResult ) await this.openNewRoute('/login');
         });
     }
 

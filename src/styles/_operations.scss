@@ -57,8 +57,8 @@
 }
 
 .type {
-  &--income { color: var(--bs-success); }
-  &--expense { color: var(--bs-danger); }
+  &--income { color: var(--bs-success) !important; }
+  &--expense { color: var(--bs-danger) !important; }
 }
 
 //____________________________________OPERATIONS CREATE____________________________

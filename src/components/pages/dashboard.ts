@@ -2,28 +2,36 @@ import { Chart } from "chart.js/auto";
 import { BaseFiltersPage } from "./base-filters-page";
 import { CategoriesService } from "../../services/categories-service";
 import { OperationsService } from "../../services/operations-service";
+import {OperationTypeEnum} from "../../types/operation-type.enum";
+import type {OperationsType} from "../../types/operations.type";
 
 export class Dashboard extends BaseFiltersPage {
-    constructor (openNewRoute) {
+    private incomeChart: Chart | null = null;
+    private expenseChart: Chart | null = null;
+
+    constructor () {
         super();
-        this.openNewRoute = openNewRoute;
-        this.incomeChart = null;
-        this.expenseChart = null;
+
         this.initPeriodFilter(() => this.renderCharts());
         this.renderCharts().then();
     }
 
-    async renderCharts () {
-        await this.chartRender('income', document.getElementById('chart__incomes'));
-        await this.chartRender('expense', document.getElementById('chart__expenses'));
+    private async renderCharts (): Promise<void> {
+        await Promise.all([
+            this.chartRender(OperationTypeEnum.INCOME,
+                document.getElementById('chart__incomes') as HTMLCanvasElement),
+            this.chartRender(OperationTypeEnum.EXPENSE,
+                document.getElementById('chart__expenses') as HTMLCanvasElement),
+        ]);
     }
 
-    async chartRender (type, chartElement) {
+   private async chartRender (type: string, chartElement: HTMLCanvasElement | null): Promise<void> {
         // Получаем массив объектов [{ id: 1, title: 'Зарплата' }, { id: 2, title: 'Депозиты' }, ...]
         const categories = await CategoriesService.getCategories(type);
+        if (!categories || !chartElement) return;
 
         // Получаем все операции [{ type: 'income', category: 'Зарплата', amount: 500 }, ...]
-        let operations;
+        let operations: OperationsType[] | null;
         if ( this.dateFrom && this.dateTo ) {
             operations = await OperationsService.getOperationsWithFilter(this.dateFrom, this.dateTo)
         } else if ( this.period === 'all' ) {
@@ -34,6 +42,7 @@ export class Dashboard extends BaseFiltersPage {
 
         // Оставляем только операции нужного типа переданной в type
         // filter создаёт новый массив, оставляя только элементы, где условие true
+       if (!operations) return;
         const filteredOperations = operations.filter(operation => operation.type === type);
 
         // map перебирает каждую категорию и возвращает число — сумму по ней
@@ -74,27 +83,27 @@ export class Dashboard extends BaseFiltersPage {
         );
 
         // Проверяем тип графика
-        const chartInstance = type === 'income' ? this.incomeChart : this.expenseChart;
+        const chartInstance = type === OperationTypeEnum.INCOME ? this.incomeChart : this.expenseChart;
 
         const chartConfig = {
-            type: 'pie',
+            type: 'pie' as const,
             data: {
                 labels: labels,
                 datasets: [{
                     data: data,
                     hoverOffset: 8,
                     backgroundColor: colors,
-                }]
+                },]
             },
             options: {
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'top',
+                        position: 'top' as const,
                         labels: {
                             font: {
-                                family: 'Roboto',
-                                weight: 'bold',
+                                family: 'Roboto' as const,
+                                weight: 'bold' as const,
                             }
                         }
                     },
@@ -106,12 +115,14 @@ export class Dashboard extends BaseFiltersPage {
         }
         if ( chartInstance ) {
             chartInstance.data.labels = labels;
-            chartInstance.data.datasets[0].data = data;
-            chartInstance.data.datasets[0].backgroundColor = colors
+            const datasets = chartInstance.data.datasets[0];
+            if (!datasets) return;
+            datasets.data = data;
+            datasets.backgroundColor = colors
             chartInstance.update();
         } else {
             const newChart = new Chart(chartElement, chartConfig);
-            if ( type === 'income' ) this.incomeChart = newChart;
+            if ( type === OperationTypeEnum.INCOME ) this.incomeChart = newChart;
             else this.expenseChart = newChart;
         }
     };

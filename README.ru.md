@@ -10,7 +10,7 @@
 
 - **HTML5** — разметка шаблонов
 - **SCSS** — стилизация (с разбивкой на партиалы)
-- **JavaScript (ES6+)** — логика приложения, роутинг, компоненты
+- **TypeScript** — логика приложения, роутинг, компоненты
 - **Vite** — сборщик
 - **npm** — менеджер пакетов
 - **Bootstrap 5** + **Bootstrap Icons** — UI-компоненты и иконки
@@ -66,37 +66,37 @@ frontend/
 │           └── operations/
 │               └── operations-list.html
 ├── src/
-│   ├── main.js                             # Точка входа
-│   ├── router.js                           # Клиентский роутер
+│   ├── main.ts                             # Точка входа
+│   ├── router.ts                           # Клиентский роутер
 │   ├── config/
-│   │   └── config.js                       # Базовый URL API и имена маршрутов
+│   │   └── config.ts                       # Базовый URL API и имена маршрутов
 │   ├── services/
-│   │   ├── auth-service.js                 # Авторизация: вход, регистрация, выход
-│   │   ├── categories-service.js           # CRUD категорий
-│   │   └── operations-service.js           # CRUD операций и фильтрация
+│   │   ├── auth-service.ts                 # Авторизация: вход, регистрация, выход
+│   │   ├── categories-service.ts           # CRUD категорий
+│   │   └── operations-service.ts           # CRUD операций и фильтрация
 │   ├── components/
-│   │   ├── layout.js                       # Сайдбар, баланс, состояние меню
+│   │   ├── layout.ts                       # Сайдбар, баланс, состояние меню
 │   │   └── pages/
 │   │       ├── auth/
-│   │       │   ├── login.js
-│   │       │   └── register.js
-│   │       ├── dashboard.js                # Графики с фильтрацией по периоду
-│   │       ├── base-filters-page.js        # Базовый класс: логика фильтра периода
+│   │       │   ├── login.ts
+│   │       │   └── register.ts
+│   │       ├── dashboard.ts                # Графики с фильтрацией по периоду
+│   │       ├── base-filters-page.ts        # Базовый класс: логика фильтра периода
 │   │       ├── operations/
-│   │       │   ├── operations-list.js      # Список операций с фильтрами
-│   │       │   └── operations-form.js      # Создание и редактирование операции
+│   │       │   ├── operations-list.ts      # Список операций с фильтрами
+│   │       │   └── operations-form.ts      # Создание и редактирование операции
 │   │       └── base-categories/
-│   │           ├── base-categories.js      # Список категорий (доходы и расходы)
-│   │           ├── base-categories-create.js
-│   │           └── base-categories-edit.js
+│   │           ├── base-categories.ts      # Список категорий (доходы и расходы)
+│   │           ├── base-categories-create.ts
+│   │           └── base-categories-edit.ts
 │   ├── utils/
-│   │   ├── tokens-utils.js                 # Хранение токенов и логика обновления
-│   │   ├── http-utils.js                   # HTTP-обёртка с заголовками авторизации
-│   │   ├── validator-form.js               # Валидация форм
-│   │   ├── toast-utils.js                  # Уведомления об ошибках
-│   │   ├── modal-utils.js                  # Модальное окно подтверждения удаления
-│   │   ├── date-picker.js                  # Обёртка над Tempus Dominus
-│   │   └── select-period.js                # Состояние кнопок фильтра периода
+│   │   ├── tokens-utils.ts                 # Хранение токенов и логика обновления
+│   │   ├── http-utils.ts                   # HTTP-обёртка с заголовками авторизации
+│   │   ├── validator-form.ts               # Валидация форм
+│   │   ├── toast-utils.ts                  # Уведомления об ошибках
+│   │   ├── modal-utils.ts                  # Модальное окно подтверждения удаления
+│   │   ├── date-picker.ts                  # Обёртка над Tempus Dominus
+│   │   └── select-period.ts                # Состояние кнопок фильтра периода
 │   └── styles/
 │       ├── styles.scss                     # Точка входа стилей
 │       ├── _auth.scss

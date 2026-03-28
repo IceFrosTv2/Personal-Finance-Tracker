@@ -1,34 +1,42 @@
-import { OperationsService } from "../../../services/operations-service";
-import { ModalUtils } from "../../../utils/modal-utils";
-import { Layout } from "../../layout";
-import { BaseFiltersPage } from "../base-filters-page";
+import {OperationsService} from "../../../services/operations-service";
+import {ModalUtils} from "../../../utils/modal-utils";
+import {Layout} from "../../layout";
+import {BaseFiltersPage} from "../base-filters-page";
+import type {OpenNewRouteType} from "../../../types/open-new-route.type";
+import type {OperationsType} from "../../../types/operations.type";
+import {OperationTypeEnum} from "../../../types/operation-type.enum";
 
 export class OperationsList extends BaseFiltersPage {
-    constructor (openNewRoute) {
+    tbody!: HTMLElement;
+    pagination!: HTMLElement;
+    allOperations: OperationsType[] = [];
+    currentPage = 1;
+    perPage = 10;
+
+    constructor(private openNewRoute: OpenNewRouteType) {
         super();
-        this.openNewRoute = openNewRoute;
-        this.tbody = document.getElementById('tbody-table');
-        this.pagination = document.getElementById('pagination');
-        this.allOperations = [];
-        this.currentPage = 1;
-        this.perPage = 10;
+        this.tbody = document.getElementById('tbody-table') as HTMLElement;
+        this.pagination = document.getElementById('pagination') as HTMLElement;
+        if (!this.tbody || !this.pagination) return;
 
         this.buttonCreateListener();
         this.loadOperations().then();
         this.initPeriodFilter(() => this.loadOperations());
 
         this.tbody.addEventListener('click', (e) => {
-            const button = e.target.closest('button[data-id]');
-            if ( !button ) return false;
+            if (!e.target || !(e.target instanceof Element)) return;
+            const button = e.target.closest<HTMLButtonElement>('button[data-id]');
+            if (!button) return;
 
             const id = button.dataset.id;
+            if (!id) return;
 
             ModalUtils.confirm('operation', async () => {
                 const result = await OperationsService.deleteOperation(id);
-                if ( result ) {
+                if (result) {
                     this.allOperations = this.allOperations.filter(op => String(op.id) !== String(id));
                     const totalPages = Math.ceil(this.allOperations.length / this.perPage);
-                    if ( this.currentPage > totalPages && totalPages > 0 ) this.currentPage = totalPages;
+                    if (this.currentPage > totalPages && totalPages > 0) this.currentPage = totalPages;
                     this.renderPage();
                     await Layout.getBalance();
                 }
@@ -36,43 +44,48 @@ export class OperationsList extends BaseFiltersPage {
         });
     }
 
-    buttonCreateListener () {
-        document.getElementById('create-income').addEventListener('click',
-            () => this.openNewRoute('/operations/create?operation=income'));
-        document.getElementById('create-expense').addEventListener('click',
-            () => this.openNewRoute('/operations/create?operation=expense'));
+    private buttonCreateListener(): void {
+        const createIncome = document.getElementById(`create-${OperationTypeEnum.INCOME}`)
+        if (!createIncome) return;
+        createIncome.addEventListener('click',
+            () => this.openNewRoute(`/operations/create?operation=${OperationTypeEnum.INCOME}`));
+
+        const createExpense = document.getElementById(`create-${OperationTypeEnum.EXPENSE}`)
+        if (!createExpense) return;
+        createExpense.addEventListener('click',
+            () => this.openNewRoute(`/operations/create?operation=${OperationTypeEnum.EXPENSE}`));
     }
 
-    async loadOperations () {
-        let result;
-        if ( this.dateFrom && this.dateTo ) {
+    private async loadOperations(): Promise<void> {
+        let result: OperationsType[] | null;
+        if (this.dateFrom && this.dateTo) {
             result = await OperationsService.getOperationsWithFilter(this.dateFrom, this.dateTo);
-        } else if ( this.period === 'all' ) {
+        } else if (this.period === 'all') {
             result = await OperationsService.getAllOperations();
         } else {
             result = await OperationsService.getTodayOperations();
         }
-        if ( result ) {
+        if (result) {
             this.allOperations = result;
             this.currentPage = 1;
             this.renderPage();
         }
     }
 
-    renderPage () {
-        const start = (this.currentPage - 1) * this.perPage;
-        const slice = this.allOperations.slice(start, start + this.perPage);
+    private renderPage(): void {
+        const start: number = (this.currentPage - 1) * this.perPage;
+        const slice: OperationsType[] = this.allOperations.slice(start, start + this.perPage);
         this.renderOperationsList(slice, start);
         this.renderPagination();
     }
 
-    renderOperationsList (operations, offset = 0) {
+    private renderOperationsList(operations: OperationsType[], offset = 0): void {
         this.tbody.innerHTML = '';
-        for ( const [index, operation] of operations.entries() ) {
-            const typeClass = operation.type === 'income' ? 'type--income' : 'type--expense';
+        for (const [index, operation] of operations.entries()) {
+            const typeClass = `type--${operation.type}`;
             const formatDate = new Date(operation.date).toLocaleDateString();
             const tr = document.createElement('tr');
-            tr.id = operation.id;
+            tr.id = operation.id.toString();
             tr.innerHTML = `
                 <th class="col-hidden" scope="row">${offset + index + 1}</th>
                 <td class="${typeClass}">${operation.type}</td>
@@ -93,11 +106,11 @@ export class OperationsList extends BaseFiltersPage {
         }
     }
 
-    renderPagination () {
+    private renderPagination(): void {
         const total = this.allOperations.length;
         const totalPages = Math.ceil(total / this.perPage);
 
-        if ( totalPages <= 1 ) {
+        if (totalPages <= 1) {
             this.pagination.innerHTML = '';
             return;
         }
@@ -111,7 +124,7 @@ export class OperationsList extends BaseFiltersPage {
                 <li class="page-item ${this.currentPage === 1 ? 'disabled' : ''}">
                     <button class="page-link" data-page="${this.currentPage - 1}">&#8249;</button>
                 </li>
-                ${Array.from({ length: totalPages }, (_, i) => i + 1).map(page => `
+                ${Array.from({length: totalPages}, (_, i) => i + 1).map(page => `
                     <li class="page-item ${page === this.currentPage ? 'active' : ''}">
                         <button class="page-link" data-page="${page}">${page}</button>
                     </li>
@@ -122,7 +135,7 @@ export class OperationsList extends BaseFiltersPage {
             </ul>
         `;
 
-        this.pagination.querySelectorAll('button[data-page]').forEach(btn => {
+        this.pagination.querySelectorAll<HTMLButtonElement>('button[data-page]').forEach(btn => {
             btn.addEventListener('click', () => {
                 this.currentPage = Number(btn.dataset.page);
                 this.renderPage();

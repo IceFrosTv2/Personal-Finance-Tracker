@@ -1,10 +1,16 @@
 import { TokensUtils } from "./tokens-utils";
 import config from "../config/config";
+import type {HttpResponseType} from "../types/http-response.type";
 
 export class HttpUtils {
-    static async request (url, method = 'GET', useAuth = true, body = null) {
+    public static async request (
+        url: string,
+        method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
+        useAuth: boolean = true,
+        body: Record<string, unknown> | null = null,
+    ): Promise<HttpResponseType> {
 
-        const params = {
+        const params: {method: string, headers: Record<string, string>, body?: string} = {
             method,
             headers: {
                 'Content-type': 'application/json',
@@ -25,7 +31,7 @@ export class HttpUtils {
         try {
             const response = await fetch(config.api + url, params);
 
-            let json;
+            let json: unknown;
             try {
                 json = await response.json();
             } catch (e) {
@@ -42,7 +48,10 @@ export class HttpUtils {
                         return this.request(url, method, useAuth, body)
                     }
                     location.href = '/login';
-                    return { error: true }
+                    return {
+                        error: true,
+                        response: json,
+                    }
                 }
                 return {
                     error: true,

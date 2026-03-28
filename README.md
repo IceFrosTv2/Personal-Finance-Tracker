@@ -10,7 +10,7 @@ A single-page application for tracking personal income and expenses. Manage cate
 
 - **HTML5** — page templates
 - **SCSS** — styling (split into partials)
-- **JavaScript (ES6+)** — app logic, routing, components
+- **TypeScript** — app logic, routing, components
 - **Vite** — bundler
 - **npm** — package manager
 - **Bootstrap 5** + **Bootstrap Icons** — UI components and icons
@@ -66,37 +66,37 @@ frontend/
 │           └── operations/
 │               └── operations-list.html
 ├── src/
-│   ├── main.js                             # Entry point
-│   ├── router.js                           # Client-side router
+│   ├── main.ts                             # Entry point
+│   ├── router.ts                           # Client-side router
 │   ├── config/
-│   │   └── config.js                       # API base URL and route names
+│   │   └── config.ts                       # API base URL and route names
 │   ├── services/
-│   │   ├── auth-service.js                 # Login, register, logout
-│   │   ├── categories-service.js           # Category CRUD
-│   │   └── operations-service.js           # Operation CRUD + filters
+│   │   ├── auth-service.ts                 # Login, register, logout
+│   │   ├── categories-service.ts           # Category CRUD
+│   │   └── operations-service.ts           # Operation CRUD + filters
 │   ├── components/
-│   │   ├── layout.js                       # Sidebar, balance, menu state
+│   │   ├── layout.ts                       # Sidebar, balance, menu state
 │   │   └── pages/
 │   │       ├── auth/
-│   │       │   ├── login.js
-│   │       │   └── register.js
-│   │       ├── dashboard.js                # Charts with period filtering
-│   │       ├── base-filters-page.js        # Base class: period filter logic
+│   │       │   ├── login.ts
+│   │       │   └── register.ts
+│   │       ├── dashboard.ts                # Charts with period filtering
+│   │       ├── base-filters-page.ts        # Base class: period filter logic
 │   │       ├── operations/
-│   │       │   ├── operations-list.js      # Transaction list with filters
-│   │       │   └── operations-form.js      # Create and edit operations
+│   │       │   ├── operations-list.ts      # Transaction list with filters
+│   │       │   └── operations-form.ts      # Create and edit operations
 │   │       └── base-categories/
-│   │           ├── base-categories.js      # Category list (used for both income/expense)
-│   │           ├── base-categories-create.js
-│   │           └── base-categories-edit.js
+│   │           ├── base-categories.ts      # Category list (used for both income/expense)
+│   │           ├── base-categories-create.ts
+│   │           └── base-categories-edit.ts
 │   ├── utils/
-│   │   ├── tokens-utils.js                 # Token storage and refresh logic
-│   │   ├── http-utils.js                   # HTTP wrapper with auth headers
-│   │   ├── validator-form.js               # Form validation
-│   │   ├── toast-utils.js                  # Error notifications
-│   │   ├── modal-utils.js                  # Delete confirmation modal
-│   │   ├── date-picker.js                  # Tempus Dominus wrapper
-│   │   └── select-period.js                # Period filter button state
+│   │   ├── tokens-utils.ts                 # Token storage and refresh logic
+│   │   ├── http-utils.ts                   # HTTP wrapper with auth headers
+│   │   ├── validator-form.ts               # Form validation
+│   │   ├── toast-utils.ts                  # Error notifications
+│   │   ├── modal-utils.ts                  # Delete confirmation modal
+│   │   ├── date-picker.ts                  # Tempus Dominus wrapper
+│   │   └── select-period.ts                # Period filter button state
 │   └── styles/
 │       ├── styles.scss                     # Styles entry point
 │       ├── _auth.scss
